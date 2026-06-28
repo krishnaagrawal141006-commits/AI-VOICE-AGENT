@@ -68,6 +68,32 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEventListeners() {
+    // Navigation panel switcher
+    const navItems = document.querySelectorAll('.nav-item');
+    const pageViews = document.querySelectorAll('.page-view');
+    const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetView = item.getAttribute('data-view');
+            if (!targetView) return;
+
+            // Remove active classes
+            navItems.forEach(n => n.classList.remove('active'));
+            pageViews.forEach(v => v.classList.remove('active'));
+
+            // Set active
+            item.classList.add('active');
+            const activePanel = document.getElementById(`view-${targetView}`);
+            if (activePanel) activePanel.classList.add('active');
+
+            // Update breadcrumb
+            const viewTitle = item.textContent.trim();
+            breadcrumbCurrent.textContent = viewTitle;
+        });
+    });
+
     refreshLogsBtn.addEventListener('click', () => {
         fetchStats();
         fetchLogs();
