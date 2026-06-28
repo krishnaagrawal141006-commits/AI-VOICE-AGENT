@@ -213,6 +213,32 @@ Be extremely polite, concise, and helpful. Keep responses under 2 sentences.</te
                     </div>
                 </div>
 
+                <!-- Real-time Latency Meter Panel -->
+                <div class="glass-card panel-card latency-panel" style="margin-top: 24px;">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-gauge-high" style="color:var(--secondary-color);"></i> Real-time Latency Telemetry</h2>
+                        <span class="badge">Active Track</span>
+                    </div>
+                    <div class="latency-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
+                        <div class="latency-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 12px; text-align: center;">
+                            <span class="latency-label" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; font-family: var(--font-header);">STT (Speech)</span>
+                            <h3 id="latency-stt" style="font-size: 1.25rem; font-weight: 800; color: #38bdf8; margin: 0;">0ms</h3>
+                        </div>
+                        <div class="latency-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 12px; text-align: center;">
+                            <span class="latency-label" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; font-family: var(--font-header);">LLM (Brain)</span>
+                            <h3 id="latency-llm" style="font-size: 1.25rem; font-weight: 800; color: #a78bfa; margin: 0;">0ms</h3>
+                        </div>
+                        <div class="latency-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 12px; text-align: center;">
+                            <span class="latency-label" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; font-family: var(--font-header);">TTS (Voice)</span>
+                            <h3 id="latency-tts" style="font-size: 1.25rem; font-weight: 800; color: #f472b6; margin: 0;">0ms</h3>
+                        </div>
+                        <div class="latency-card" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 12px; text-align: center; border-left: 2px solid var(--accent-emerald);">
+                            <span class="latency-label" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; font-family: var(--font-header);">Total (RTT)</span>
+                            <h3 id="latency-total" style="font-size: 1.25rem; font-weight: 800; color: #34d399; margin: 0;">0ms</h3>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Real Call Trigger Panel -->
                 <div class="glass-card panel-card real-call-panel">
                     <div class="panel-header">

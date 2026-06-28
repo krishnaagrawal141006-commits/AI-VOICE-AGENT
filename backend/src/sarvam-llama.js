@@ -480,17 +480,22 @@ async function processPlaybackQueue(twilioWs, streamSid, session, sessionId) {
  */
 async function fetchTtsAndQueue(twilioWs, streamSid, text, session, sessionId, index) {
   try {
+    const ttsStart = Date.now();
     let audioBase64 = null;
     const cleanText = text.trim();
+    let isCacheHit = false;
     
     // Check if we have pre-synthesized this exact audio clause
     if (ttsAudioCache.has(cleanText)) {
       console.log(`[TTS Cache Hit] Instant 0ms latency playback for: "${cleanText}"`);
       audioBase64 = ttsAudioCache.get(cleanText);
+      isCacheHit = true;
     } else {
       console.log(`[TTS Stream] Synthesizing clause in background: "${cleanText}" with sentiment: ${session.currentSentiment || 'neutral'} at index ${index}`);
       audioBase64 = await generateSpeech(cleanText, session.currentSentiment || 'neutral');
     }
+    
+    const ttsDuration = isCacheHit ? 0 : (Date.now() - ttsStart);
     
     // If user interrupted and bumped session ID, discard audio
     if (sessionId !== session.currentPlaybackSessionId) {
@@ -509,6 +514,21 @@ async function fetchTtsAndQueue(twilioWs, streamSid, text, session, sessionId, i
         // Fallback in case placeholder was somehow missed
         session.playbackQueue.push({ index, text: cleanText, buffer, resolved: true });
         session.playbackQueue.sort((a, b) => a.index - b.index);
+      }
+      
+      // ⏱️ Real-time latency tracking for index 0 (the first chunk player hears)
+      if (index === 0 && session.lastPipelineStart) {
+        const total = Date.now() - session.lastPipelineStart;
+        const stt = session.lastSttDuration || 0;
+        const llm = Math.max(0, total - stt - ttsDuration);
+        
+        broadcastToDashboard({
+          event: 'latency',
+          stt: stt,
+          llm: llm,
+          tts: ttsDuration,
+          total: total
+        });
       }
       
       // Start queue loop
@@ -723,6 +743,7 @@ async function processCustomerSpeech(twilioWs, streamSid, audioBuffer, session) 
   }
   session.isProcessing = true;
   const pipelineStart = Date.now();
+  session.lastPipelineStart = pipelineStart;
 
   try {
     // 1. Build Wav container
@@ -733,6 +754,7 @@ async function processCustomerSpeech(twilioWs, streamSid, audioBuffer, session) 
     console.log('[STT Engine] Processing speech buffer...');
     const transcript = await transcribeSpeech(wavBuffer);
     const t2 = Date.now();
+    session.lastSttDuration = t2 - t1;
     console.log(`[STT Engine] Customer said: "${transcript}" (STT: ${t2 - t1}ms)`);
 
     // Clean and filter noise/single-char garbage transcripts (e.g. "आ", "à®†", "." etc.)
@@ -815,6 +837,7 @@ export function handleSarvamLlamaMedia(twilioWs, streamSid, base64Payload, phone
 
     session = {
       chatHistory: [
+        {
           role: 'system',
           content: `# ROLE
 You are a professional AI Voice Assistant representing VaniAI restaurant.

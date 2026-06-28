@@ -255,6 +255,7 @@ function startCallSimulation() {
     // UI Updates
     stats.activeCalls = 1;
     updateStatsUI();
+    updateLatencyTelemetry(0, 0, 0, 0);
     
     simulatorBadge.textContent = 'Active Call';
     simulatorBadge.classList.add('badge-active');
@@ -299,6 +300,16 @@ function playNextSimulatedDialogue() {
             liveTranscriptContainer.appendChild(sysDiv);
             liveTranscriptContainer.scrollTop = liveTranscriptContainer.scrollHeight;
         } else {
+            // Trigger a simulated latency telemetry update for agent replies
+            if (step.speaker === 'Agent') {
+                const isCached = Math.random() > 0.6;
+                const sttVal = Math.floor(Math.random() * 50) + 140; // 140-190ms
+                const llmVal = isCached ? 0 : Math.floor(Math.random() * 30) + 95; // 95-125ms
+                const ttsVal = isCached ? 0 : Math.floor(Math.random() * 60) + 290; // 290-350ms
+                const totalVal = sttVal + llmVal + ttsVal + Math.floor(Math.random() * 20) + 10;
+                updateLatencyTelemetry(sttVal, llmVal, ttsVal, totalVal);
+            }
+
             // Render speech bubble
             const bubble = document.createElement('div');
             bubble.className = `chat-bubble ${step.speaker.toLowerCase()}`;
@@ -322,6 +333,7 @@ function playNextSimulatedDialogue() {
 
     }, step.delay);
 }
+
 
 function typeText(elementId, text, charIndex, callback) {
     if (!isCalling) return;
@@ -555,6 +567,8 @@ function connectDashboardStream() {
                 renderLiveSystemMessage(data.text);
             } else if (data.event === 'transcript') {
                 renderLiveTranscriptBubble(data.speaker, data.text);
+            } else if (data.event === 'latency') {
+                updateLatencyTelemetry(data.stt, data.llm, data.tts, data.total);
             }
         } catch (err) {
             console.error('[Dashboard WebSocket] Error processing message:', err);
@@ -568,12 +582,25 @@ function connectDashboardStream() {
     };
 }
 
+function updateLatencyTelemetry(stt, llm, tts, total) {
+    const sttEl = document.getElementById('latency-stt');
+    const llmEl = document.getElementById('latency-llm');
+    const ttsEl = document.getElementById('latency-tts');
+    const totalEl = document.getElementById('latency-total');
+    if (sttEl) sttEl.textContent = `${stt}ms`;
+    if (llmEl) llmEl.textContent = `${llm}ms`;
+    if (ttsEl) ttsEl.textContent = `${tts}ms`;
+    if (totalEl) totalEl.textContent = `${total}ms`;
+}
+
+
 let liveTimerInterval = null;
 let liveSecondsElapsed = 0;
 
 function startLiveCallUI() {
     stats.activeCalls = 1;
     updateStatsUI();
+    updateLatencyTelemetry(0, 0, 0, 0);
     
     simulatorBadge.textContent = 'Live Call';
     simulatorBadge.classList.add('badge-active');
