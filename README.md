@@ -1,6 +1,6 @@
-# DineSaathi - AI Receptionist & Call Reservation Console
+# VaniAI - AI Receptionist & Call Reservation Console
 
-DineSaathi is an advanced, ultra-low latency AI-powered Voice Receptionist designed for Indian restaurants. It automates table reservations, answers queries about restaurant specials, and streams interactive conversations in real-time to a gorgeous dashboard interface.
+VaniAI is an advanced, ultra-low latency AI-powered Voice Receptionist designed for Indian restaurants. It automates table reservations, answers queries about restaurant specials, and streams interactive conversations in real-time to a gorgeous dashboard interface.
 
 ---
 

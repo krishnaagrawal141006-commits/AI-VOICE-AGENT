@@ -52,5 +52,5 @@ wss.on('connection', (ws, req) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 DineSaathi Backend is running on port ${PORT}`);
+  console.log(`🚀 VaniAI Backend is running on port ${PORT}`);
 });

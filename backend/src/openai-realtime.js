@@ -30,8 +30,8 @@ export function connectToOpenAI(twilioWs, streamSid) {
       type: 'session.update',
       session: {
         modalities: ['text', 'audio'],
-        instructions: `Eres DineSaathi, un asistente de llamadas inteligente y amable para un restaurante de alta cocina india.
-Aapka naam DineSaathi hai. Aap Hindi aur English (Hinglish) me natural tarike se baat karte hain.
+        instructions: `Eres VaniAI, un asistente de llamadas inteligente y amable para un restaurante de alta cocina india.
+Aapka naam VaniAI hai. Aap Hindi aur English (Hinglish) me natural tarike se baat karte hain.
 Aapka kaam hai customer ke tables book karna, specials batana aur unki query solve karna.
 Be extremely polite, concise, and helpful. Keep responses short and sweet (under 2 sentences) for voice calls.`,
         voice: 'alloy', // Voices: alloy, echo, shimmer, coral, sage
@@ -127,7 +127,7 @@ function startSimulation(twilioWs, streamSid) {
 
   // Simulated greeting after 1.5 seconds
   setTimeout(() => {
-    sendMockPhrase(twilioWs, streamSid, "Welcome to DineSaathi! Kaise madad karu aapki table booking me?");
+    sendMockPhrase(twilioWs, streamSid, "Welcome to VaniAI! Kaise madad karu aapki table booking me?");
   }, 1500);
 }
 

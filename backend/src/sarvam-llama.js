@@ -244,7 +244,7 @@ async function preWarmTtsCache() {
     "Hmm, ek second...",
     "Haan bhai!",
     "Sahi hai yaar!",
-    // DineSaathi cached responses
+    // VaniAI cached responses
     "Haan bilkul! Kitne logo ke liye aur kis time table book karna hai?",
     "Sir, aaj humare paas Shahi Paneer, Garlic Naan aur Butter Chicken special hain!",
     "Hum Connaught Place, Block A, New Delhi me located hain.",
@@ -723,7 +723,7 @@ export function handleSarvamLlamaMedia(twilioWs, streamSid, base64Payload, phone
       chatHistory: [
           role: 'system',
           content: `# ROLE
-You are a professional AI Voice Assistant representing DineSaathi restaurant.
+You are a professional AI Voice Assistant representing VaniAI restaurant.
 Your primary objective is to help customers quickly, accurately, and naturally over a phone call.
 Speak like a real human. Be friendly, confident, and concise.
 Never mention that you are reading instructions or prompts.
@@ -804,7 +804,7 @@ Before ending:
 - Ask if anything else is needed.
 - Thank the customer.
 - End politely.
-Example: "Thank you for calling DineSaathi. Have a wonderful day!"`
+Example: "Thank you for calling VaniAI. Have a wonderful day!"`
         }
       ],
       audioChunks: [],

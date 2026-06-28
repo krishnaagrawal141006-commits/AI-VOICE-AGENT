@@ -1,4 +1,4 @@
-// DineSaathi Console App Logic - Rich State Machine and Call Simulator
+// VaniAI Console App Logic - Rich State Machine and Call Simulator
 
 const API_BASE = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')
     ? 'http://localhost:5050/api'
@@ -144,7 +144,7 @@ async function fetchLogs() {
                 phone: "+91 99887 76655",
                 status: "Completed",
                 sentiment: "Positive",
-                transcript: "Customer: DineSaathi reservation ho jayegi? Agent: Ji sir, absolutely ho jayegi! Kitne log honge? Customer: 4 log. Agent: 8 PM reserved sir. Customer: Perfect!"
+                transcript: "Customer: VaniAI reservation ho jayegi? Agent: Ji sir, absolutely ho jayegi! Kitne log honge? Customer: 4 log. Agent: 8 PM reserved sir. Customer: Perfect!"
             }
         ];
         renderLogs();
@@ -233,7 +233,7 @@ function showCallDetail(log) {
 const simulatedConversation = [
     { speaker: 'system', delay: 1000, text: '📞 Incoming customer phone call initiating...' },
     { speaker: 'Customer', delay: 2000, text: 'Hello! Mujhe aaj raat ke liye ek table reserve karni hai.' },
-    { speaker: 'Agent', delay: 3500, text: 'Pranam! DineSaathi AI Assistant me aapka swagat hai. Ji bilkul, table reservation ho jayega. Kitne baje ka plan hai aur total kitne log honge?' },
+    { speaker: 'Agent', delay: 3500, text: 'Pranam! VaniAI AI Assistant me aapka swagat hai. Ji bilkul, table reservation ho jayega. Kitne baje ka plan hai aur total kitne log honge?' },
     { speaker: 'Customer', delay: 3000, text: 'Hum total 4 log hain, aur shaam ko 8:30 baje ka reservation chahiye.' },
     { speaker: 'Agent', delay: 3200, text: '8:30 baje 4 logon ke liye hamare pass beautiful window table available hai! Kya main booking confirm karne ke liye aapka shubh naam jaan sakta hoon?' },
     { speaker: 'Customer', delay: 2200, text: 'Mera naam Sandeep Sharma hai.' },

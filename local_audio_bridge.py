@@ -13,7 +13,7 @@ CHANNELS = 1
 BLOCK_SIZE = 160  # 20ms of audio at 8kHz
 
 print("==================================================")
-print("DineSaathi Local Audio Phone Bridge")
+print("VaniAI Local Audio Phone Bridge")
 print("==================================================")
 print(f"Audio Sample Rate: {SAMPLE_RATE}Hz (Mono)")
 print("This bridge allows routing your physical phone calls to the AI agent.")
@@ -21,7 +21,7 @@ print("==================================================\n")
 
 # Get server URL from arguments or default to the active VPS tunnel
 import argparse
-parser = argparse.ArgumentParser(description="DineSaathi Local Audio Phone Bridge")
+parser = argparse.ArgumentParser(description="VaniAI Local Audio Phone Bridge")
 parser.add_argument("--url", default="wss://mean-moose-know.loca.lt/media-stream", help="Backend WebSocket URL")
 parser.add_argument("--input", type=int, default=None, help="Input Device Index")
 parser.add_argument("--output", type=int, default=None, help="Output Device Index")
@@ -221,7 +221,7 @@ async def main():
             "Bypass-Tunnel-Reminder": "true"
         }
         async with websockets.connect(ws_url, additional_headers=headers) as websocket:
-            print("Connected to DineSaathi Server successfully!")
+            print("Connected to VaniAI Server successfully!")
             
             # Send Twilio handshake emulation events
             await websocket.send(json.dumps({"event": "connected"}))

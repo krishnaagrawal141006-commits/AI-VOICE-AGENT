@@ -1,7 +1,7 @@
 {
-  "name": "dinesaathi-backend",
+  "name": "vaniai-backend",
   "version": "1.0.0",
-  "description": "AI Call Agent Backend for DineSaathi",
+  "description": "AI Call Agent Backend for VaniAI",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

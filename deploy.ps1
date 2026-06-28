@@ -1,5 +1,5 @@
 # deploy.ps1
-# Script to automate deployment of DineSaathi Backend to your AWS VPS.
+# Script to automate deployment of VaniAI Backend to your AWS VPS.
 
 # 1. Get VPS details from user
 $vpsIp = (Read-Host -Prompt "Enter your AWS VPS Public IP address").Trim().Trim('"', "'")
@@ -20,7 +20,7 @@ if (-not (Test-Path $keyPath)) {
 
 Write-Host "`n[1/3] Copying backend files to AWS VPS ($vpsIp)..." -ForegroundColor Cyan
 # Run SCP to copy backend folder to the server
-scp -i $keyPath -r ./backend "${username}@${vpsIp}:/home/${username}/dinesaathi-backend"
+scp -i $keyPath -r ./backend "${username}@${vpsIp}:/home/${username}/vaniai-backend"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "`nFailed to copy files via SCP. Please verify your IP, username, and key file." -ForegroundColor Red
@@ -30,14 +30,14 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "`n[2/3] Installing dependencies and starting server with PM2..." -ForegroundColor Cyan
 # Commands to execute on the remote VPS
 $remoteCommands = @"
-cd /home/${username}/dinesaathi-backend &&
+cd /home/${username}/vaniai-backend &&
 npm install --production &&
 if ! command -v pm2 &> /dev/null; then
     echo "Installing PM2 globally..."
     sudo npm install -g pm2
 fi &&
-pm2 delete dinesaathi-backend 2>/dev/null || true &&
-pm2 start src/server.js --name dinesaathi-backend &&
+pm2 delete vaniai-backend 2>/dev/null || true &&
+pm2 start src/server.js --name vaniai-backend &&
 pm2 save
 "@
 
