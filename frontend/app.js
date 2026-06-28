@@ -1,8 +1,15 @@
 // VaniAI Console App Logic - Rich State Machine and Call Simulator
 
-const API_BASE = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')
-    ? 'http://localhost:5050/api'
-    : `${window.location.protocol}//${window.location.host}/api`;
+// Dynamic API resolution supporting local simulation, Vercel deployments, and query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const backendParam = urlParams.get('backend');
+
+const API_BASE = backendParam 
+    ? `${backendParam}/api` 
+    : (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')
+        ? 'http://localhost:5050/api'
+        : 'https://sour-snakes-love.loca.lt/api');
+
 
 // Core State
 let stats = {
@@ -586,9 +593,15 @@ function renderBookings() {
 let dashboardWs = null;
 
 function connectDashboardStream() {
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    // Dynamically connect to the host currently serving the website (e.g. Serveo)
-    const wsUrl = `${wsProtocol}//${window.location.host}/dashboard-stream`;
+    let wsUrl;
+    if (backendParam) {
+        const cleanHost = backendParam.replace(/^https?:\/\//i, '');
+        wsUrl = `wss://${cleanHost}/dashboard-stream`;
+    } else if (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')) {
+        wsUrl = 'ws://localhost:5050/dashboard-stream';
+    } else {
+        wsUrl = 'wss://sour-snakes-love.loca.lt/dashboard-stream';
+    }
     console.log('[Dashboard WebSocket] Connecting to:', wsUrl);
     
     dashboardWs = new WebSocket(wsUrl);
