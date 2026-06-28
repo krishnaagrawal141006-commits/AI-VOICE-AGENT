@@ -20,7 +20,7 @@ VaniAI is an advanced, ultra-low latency AI-powered Voice Receptionist designed 
 ## 🛠️ Technology Stack
 
 * **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism layout), FontAwesome icons, WebSockets Client.
-* **Backend:** Node.js, Express, WS WebSocket Server, Twilio SDK, Groq SDK (Llama 3.1 8B Instant), Sarvam AI (STT & TTS).
+* **Backend:** Node.js, Express, WS WebSocket Server, Twilio SDK, Groq SDK (Llama 3.1 8B Instant), Deepgram API (STT), Sarvam AI (TTS).
 * **Local Bridge:** Python 3.x, `sounddevice`, `numpy`, `websockets`.
 
 ---
@@ -29,7 +29,7 @@ VaniAI is an advanced, ultra-low latency AI-powered Voice Receptionist designed 
 
 ### 1. Prerequisites
 * Install Node.js (v18+)
-* Register accounts for **Twilio**, **Groq**, and **Sarvam AI**.
+* Register accounts for **Twilio**, **Groq**, **Deepgram**, and **Sarvam AI**.
 
 ### 2. Configure Environment Variables
 Create a `.env` file inside the `backend/` directory:
@@ -38,8 +38,10 @@ PORT=5050
 TWILIO_ACCOUNT_SID=your_twilio_sid
 TWILIO_AUTH_TOKEN=your_twilio_auth_token
 SARVAM_API_KEY=your_sarvam_api_key
+DEEPGRAM_API_KEY=your_deepgram_api_key
 GROQ_API_KEY=your_groq_api_key
 GROQ_MODEL=llama-3.1-8b-instant
+PUBLIC_URL=your_public_tunnel_url
 ```
 
 ### 3. Run Backend Server
